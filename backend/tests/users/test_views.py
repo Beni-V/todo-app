@@ -151,7 +151,9 @@ def test_user_login_endpoint(
     """Sends api request for user login and checks the response"""
 
     # fake token to allow parametrization
-    with patch('rest_framework.authtoken.models.Token.generate_key', return_value='test_token'):
+    with patch(
+        "rest_framework.authtoken.models.Token.generate_key", return_value="test_token"
+    ):
         User.objects.create_user(username="TestUsername", password="TestPassword")
 
     response = APIClient().post("/api/login/", user_input)
