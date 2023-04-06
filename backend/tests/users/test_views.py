@@ -4,6 +4,8 @@ import pytest
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APIClient
 
+from users.models import User
+
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
@@ -70,6 +72,89 @@ def test_user_registration_endpoint(
         "django.contrib.auth.models.make_password", return_value="hashed_password"
     ):
         response = APIClient().post("/api/register/", user_input)
+
+    assert response.status_code == expected_response_status_code
+    assert response.data == expected_response_body
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "user_input, expected_response_body, expected_response_status_code",
+    [
+        (
+            {"username": "TestUsername", "password": "TestPassword"},
+            {"token": "test_token"},
+            200,
+        ),
+        (
+            {"blabla": "blabla"},
+            {
+                "username": [
+                    ErrorDetail(string="This field is required.", code="required")
+                ],
+                "password": [
+                    ErrorDetail(string="This field is required.", code="required")
+                ],
+            },
+            400,
+        ),
+        (
+            {"password": "wrong_password"},
+            {
+                "username": [
+                    ErrorDetail(string="This field is required.", code="required")
+                ]
+            },
+            400,
+        ),
+        (
+            {"username": "wrong_username", "password": "wrong_password"},
+            {
+                "non_field_errors": [
+                    ErrorDetail(
+                        string="Unable to log in with provided credentials.",
+                        code="authorization",
+                    )
+                ]
+            },
+            400,
+        ),
+        (
+            {"username": "TestUsername", "password": "wrong_password"},
+            {
+                "non_field_errors": [
+                    ErrorDetail(
+                        string="Unable to log in with provided credentials.",
+                        code="authorization",
+                    )
+                ]
+            },
+            400,
+        ),
+        (
+            {"username": "wrong_username", "password": "TestPassword"},
+            {
+                "non_field_errors": [
+                    ErrorDetail(
+                        string="Unable to log in with provided credentials.",
+                        code="authorization",
+                    )
+                ]
+            },
+            400,
+        ),
+    ],
+)
+def test_user_login_endpoint(
+    user_input, expected_response_body, expected_response_status_code
+):
+    """Sends api request for user login and checks the response"""
+
+    # fake token to allow parametrization
+    with patch('rest_framework.authtoken.models.Token.generate_key', return_value='test_token'):
+        User.objects.create_user(username="TestUsername", password="TestPassword")
+
+    response = APIClient().post("/api/login/", user_input)
 
     assert response.status_code == expected_response_status_code
     assert response.data == expected_response_body
