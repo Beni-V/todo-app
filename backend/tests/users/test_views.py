@@ -35,6 +35,12 @@ from rest_framework.test import APIClient
             201,
         ),
         (
+            # test that username will be normalized (trimmed)
+            {"username": "        TestUsername  ", "password": "Kej38Iewo"},
+            {"username": "TestUsername", "password": "hashed_password"},
+            201,
+        ),
+        (
             {"username": "", "password": "Kej38Iewo"},
             {
                 "username": [
