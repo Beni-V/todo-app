@@ -6,6 +6,7 @@ from users.models import User
 
 class UserRegistrationSerializer(ModelSerializer):
     """Serializer for user registration request"""
+
     class Meta:
         model = User
         fields = ("username", "password")
