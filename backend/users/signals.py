@@ -6,7 +6,7 @@ from users.models import User
 
 
 @receiver(post_save, sender=User)
-def create_token(_, instance, created, **__):
+def create_token(_=None, instance=None, created=None, **__):
     """Create a token for the user when it is created."""
     if created:
         Token.objects.create(user=instance)
