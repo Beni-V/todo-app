@@ -9,6 +9,7 @@ class TodoItemViewSet(viewsets.ModelViewSet):
 
     serializer_class = TodoItemSerializer
     permission_classes = [IsAuthenticated]
+    authentication_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """Return the todo items for the current user"""
