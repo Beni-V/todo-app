@@ -1,6 +1,6 @@
 import '../styles/globals.css';
-import {AuthProvider} from '@/contexts/authContext';
-import {ChakraProvider, extendBaseTheme} from '@chakra-ui/react';
+import { AuthProvider } from '@/contexts/authContext';
+import { ChakraProvider, extendBaseTheme } from '@chakra-ui/react';
 
 import chakraTheme from '@chakra-ui/theme';
 import Layout from '@/components/Layout';

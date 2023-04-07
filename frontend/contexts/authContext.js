@@ -1,5 +1,5 @@
-import {createContext, useContext, useEffect, useState} from 'react';
-import {useToast} from '@chakra-ui/react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useToast } from '@chakra-ui/react';
 
 // Create a new context for the authentication state.
 const AuthContext = createContext();

@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
-import {useAuth} from '@/contexts/authContext';
-import {useForm} from 'react-hook-form';
-import {Box, Button, Heading} from '@chakra-ui/react';
-import {FaUser} from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/contexts/authContext';
+import { useForm } from 'react-hook-form';
+import { Box, Button, Heading } from '@chakra-ui/react';
+import { FaUser } from 'react-icons/fa';
 import AuthenticationCard from '@/components/AuthenticationCard';
 import AuthenticationInputGroup from '@/components/AuthenticationInputGroup';
 

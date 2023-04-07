@@ -1,6 +1,6 @@
-import {useEffect} from 'react';
-import {useRouter} from 'next/router';
-import {useAuth} from '@/contexts/authContext';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/contexts/authContext';
 import TodoList from '../components/TodoList';
 
 const MainPage = () => {

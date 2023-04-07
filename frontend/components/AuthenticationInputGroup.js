@@ -1,4 +1,4 @@
-import {Input, InputGroup, InputRightElement} from '@chakra-ui/react';
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 
 function AuthenticationInputGroup({
   register,
