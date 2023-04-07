@@ -71,7 +71,7 @@ def test_user_registration_endpoint(
     with patch(
         "django.contrib.auth.models.make_password", return_value="hashed_password"
     ):
-        response = APIClient().post("/api/register/", user_input)
+        response = APIClient().post("/api/signup/", user_input)
 
     assert response.status_code == expected_response_status_code
     assert response.data == expected_response_body

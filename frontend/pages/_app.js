@@ -3,6 +3,7 @@ import {AuthProvider} from '@/contexts/authContext';
 import {ChakraProvider, extendBaseTheme} from '@chakra-ui/react';
 
 import chakraTheme from '@chakra-ui/theme';
+import Layout from "@/components/Layout";
 
 const { Button, Alert } = chakraTheme.components;
 
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </AuthProvider>
     </ChakraProvider>
   );

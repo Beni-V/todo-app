@@ -28,6 +28,6 @@ router.register("todo_items", TodoItemViewSet, basename='todo_items')
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/login/", ObtainAuthToken.as_view()),
-    path("api/register/", UserRegistrationView.as_view()),
+    path("api/signup/", UserRegistrationView.as_view()),
     path("api/", include(router.urls)),
 ]
