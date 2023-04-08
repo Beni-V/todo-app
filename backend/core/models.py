@@ -31,7 +31,7 @@ class TodoItem(models.Model):
     description = models.CharField(max_length=200, blank=True, null=True)
     completed = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todo_items")
-    order_id = models.PositiveIntegerField(blank=True, null=True)
+    order_id = models.PositiveIntegerField(null=True)
 
     class Meta:
         """Metaclass for TodoItem model"""
