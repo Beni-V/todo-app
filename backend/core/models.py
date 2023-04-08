@@ -5,26 +5,26 @@ from users.models import User
 
 class TodoItem(models.Model):
     """
-    Represents a todo item, task.
+    Represents a `TodoItem`, task.
 
-    A todo item belongs to a user
+    A `TodoItem` belongs to a user
 
     Attributes
     ----------
     title : str
-        The name of the todo item.
+        The name of the `TodoItem`.
 
     description : str
-        The description of the todo item.
+        The description of the `TodoItem`.
 
     completed : bool
-        The status of the todo item.
+        The status of the `TodoItem`.
 
     user : User
-        The user for which this todo item belongs.
+        The user for which this `TodoItem` belongs.
 
     order_id : int
-        The order of the todo item in the list of `User`s todo items.
+        The order of the `TodoItem` in the list of `User`s `TodoItem`s.
     """
 
     title = models.CharField(max_length=100)
