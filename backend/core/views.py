@@ -19,7 +19,7 @@ class TodoItemViewSet(BulkModelViewSet):
     # since it's not an actual bulk, and the deletion performed by iteration, do it in transaction
     @transaction.atomic
     def bulk_destroy(self, request, *args, **kwargs):
-        ids = [item['id'] for item in request.data]
+        ids = [item["id"] for item in request.data]
         qs = self.get_queryset().filter(id__in=ids)
         self.perform_bulk_destroy(qs)
         return Response(status=status.HTTP_204_NO_CONTENT)
