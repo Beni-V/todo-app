@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.db.models import Max
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
@@ -15,6 +16,8 @@ class TodoItemViewSet(BulkModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    # since it's not an actual bulk, and the deletion performed by iteration, do it in transaction
+    @transaction.atomic
     def bulk_destroy(self, request, *args, **kwargs):
         ids = [item['id'] for item in request.data]
         qs = self.get_queryset().filter(id__in=ids)
