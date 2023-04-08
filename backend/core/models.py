@@ -33,11 +33,5 @@ class TodoItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todo_items")
     order_id = models.PositiveIntegerField(null=True)
 
-    class Meta:
-        """Metaclass for TodoItem model"""
-
-        # order_id should be unique for each user
-        unique_together = ("user", "order_id")
-
     def __str__(self):
         return self.title
