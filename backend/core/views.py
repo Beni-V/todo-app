@@ -1,6 +1,8 @@
 from django.db.models import Max
+from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework_bulk import BulkModelViewSet
 
 from core.serializers import TodoItemSerializer
@@ -13,16 +15,11 @@ class TodoItemViewSet(BulkModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def allow_bulk_destroy(self, qs, filtered):
-        return True
-
-    def filter_queryset(self, queryset):
-        if isinstance(self.request.data, list):
-            # If the request data is a list, we need to filter the queryset by the ids of the request data
-            ids = [item["id"] for item in self.request.data]
-            return queryset.filter(id__in=ids)
-
-        return super().filter_queryset(queryset)
+    def bulk_destroy(self, request, *args, **kwargs):
+        ids = [item['id'] for item in request.data]
+        qs = self.get_queryset().filter(id__in=ids)
+        self.perform_bulk_destroy(qs)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def initialize_request(self, request, *args, **kwargs):
         # Set the user to the current user from the request
