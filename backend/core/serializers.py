@@ -1,7 +1,7 @@
 from rest_framework_bulk import BulkSerializerMixin, BulkListSerializer
 
 from core.models import TodoItem
-from users import serializers
+from rest_framework import serializers
 
 
 class TodoItemSerializer(BulkSerializerMixin, serializers.ModelSerializer):

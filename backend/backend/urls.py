@@ -23,7 +23,7 @@ from core.views import TodoItemViewSet
 from users.views import UserRegistrationView
 
 router = BulkRouter()
-router.register("todo_items", TodoItemViewSet, basename='todo_items')
+router.register("todo_items", TodoItemViewSet, basename="todo_items")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
