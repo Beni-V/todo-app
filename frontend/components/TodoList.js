@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Box, Button, Heading } from '@chakra-ui/react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { Box, Button, Flex, Heading, Input } from '@chakra-ui/react';
 
 const TodoList = () => {
   const [localTodoItemsData, setLocalTodoItemsData] = React.useState([]);
@@ -50,14 +50,27 @@ const TodoList = () => {
   }
 
   return (
-    <Box className="flex flex-col bg-white w-1/3 h-2/3 rounded-lg justify-center border border-black">
-      <Heading className="font-bold text-3xl p-5">{'Todo List'}</Heading>
+    <Box
+      className="flex flex-col bg-white w-1/2 h-full rounded-lg justify-center p-5"
+      gap={6}
+      boxShadow="lg">
+      <Box className="bg-gray-100 rounded-lg" boxShadow="lg">
+        <Heading className="font-bold text-2xl p-5">{'Add Todo Item'}</Heading>
+        <Box className="flex justify-between">
+          <Input placeholder="Enter Todo Item Title" className="m-5" />
+          <Button colorScheme="blue" className={'m-5'}>
+            Add
+          </Button>
+        </Box>
+      </Box>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (
             <Box
               ref={provided.innerRef}
-              className="flex flex-col w-full h-[50%] bg-gray-200 mb-5 p-3 overflow-auto scrollbar-thin scrollbar-thumb-gray-400">
+              className="flex flex-col w-full h-[50%] rounded-md overflow-auto bg-gray-100 scrollbar-thin scrollbar-thumb-gray-400"
+              boxShadow="lg">
+              <Heading className="font-bold text-3xl p-5">{'Todo List'}</Heading>
               {localTodoItemsData.map((todoItemData, index) => (
                 <Draggable
                   key={todoItemData.orderId}
@@ -65,11 +78,16 @@ const TodoList = () => {
                   index={index}>
                   {(provided) => (
                     <Box
-                      className="flex justify-start bg-gray-300 rounded-lg text-center m-2 p-3 border border-black"
+                      className={`flex justify-start rounded-lg text-center m-2 p-3 justify-between ${'bg-green-100'}`}
+                      boxShadow="md"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}>
-                      {todoItemData.title}
+                      <Box>{todoItemData.title}</Box>
+                      <Flex gap={2}>
+                        <Button colorScheme="red">Delete</Button>
+                        <Button colorScheme="green">Complete</Button>
+                      </Flex>
                     </Box>
                   )}
                 </Draggable>
@@ -78,7 +96,7 @@ const TodoList = () => {
           )}
         </Droppable>
       </DragDropContext>
-      <Box className="flex justify-between justify-end border border-black p-3">
+      <Box className="flex justify-between justify-end p-3 bg-gray-100 rounded-lg" boxShadow="lg">
         <Button colorScheme="red" className="p-3">
           Discard
         </Button>
