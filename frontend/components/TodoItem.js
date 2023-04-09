@@ -1,9 +1,19 @@
 import React from 'react';
 import { Box, Button, Flex } from '@chakra-ui/react';
 
-const TodoItem = ({ title, onDelete, onComplete, innerRef, draggableProps, dragHandleProps }) => (
+const TodoItem = ({
+  title,
+  onDelete,
+  onComplete,
+  innerRef,
+  draggableProps,
+  dragHandleProps,
+  isCompleted
+}) => (
   <Box
-    className="flex justify-start rounded-lg text-center m-2 p-3 justify-between bg-green-100"
+    className={`flex justify-start rounded-lg text-center m-2 p-3 justify-between ${
+      isCompleted ? 'bg-green-200' : 'bg-blue-200'
+    }`}
     boxShadow="md"
     ref={innerRef}
     {...draggableProps}
@@ -13,8 +23,8 @@ const TodoItem = ({ title, onDelete, onComplete, innerRef, draggableProps, dragH
       <Button colorScheme="red" onClick={onDelete}>
         Delete
       </Button>
-      <Button colorScheme="green" onClick={onComplete}>
-        Complete
+      <Button colorScheme={isCompleted ? 'blue' : 'green'} onClick={onComplete}>
+        {isCompleted ? 'Uncomplete' : 'Complete'}
       </Button>
     </Flex>
   </Box>
