@@ -5,6 +5,7 @@ import TodoItem from '../components/TodoItem';
 import TodoAddForm from '../components/TodoAddForm';
 import useTodos from '../hooks/useTodos';
 import useReorder from '../hooks/useReorder';
+import { cloneDeep } from 'lodash';
 
 const TodoList = () => {
   const { todos } = useTodos();
@@ -20,24 +21,25 @@ const TodoList = () => {
 
   const hasChanges = JSON.stringify(initialTodos) !== JSON.stringify(localTodos);
 
-  const getNewTodos = () => {
-    const newTodos = localTodos.filter((todo) => !todo.id);
-    return newTodos.map((todo) => ({
+  const convertToOrderIdsToNumbers = (todos) => {
+    return todos.map((todo) => ({
       ...todo,
       orderId: Number(todo.orderId)
     }));
   };
+
+  const getNewTodos = () => {
+    const newTodos = localTodos.filter((todo) => !todo.id);
+    return convertToOrderIdsToNumbers(newTodos);
+  };
+
   const getModifiedTodos = () => {
     const modifiedTodos = localTodos.filter(
       (todo) =>
         todo.id &&
         initialTodos.some((initialTodo) => JSON.stringify(initialTodo) !== JSON.stringify(todo))
     );
-
-    return modifiedTodos.map((todo) => ({
-      ...todo,
-      orderId: Number(todo.orderId)
-    }));
+    return convertToOrderIdsToNumbers(modifiedTodos);
   };
   const getDeletedTodos = () =>
     initialTodos.filter((initialTodo) => !localTodos.some((todo) => todo.id === initialTodo.id));
@@ -47,26 +49,21 @@ const TodoList = () => {
     const modifiedTodos = getModifiedTodos();
     const deletedTodos = getDeletedTodos();
 
-    try {
-      if (newTodos.length > 0) {
-        await postTodos(newTodos);
-      }
-      if (modifiedTodos.length > 0) {
-        await patchTodos(modifiedTodos);
-      }
-      if (deletedTodos.length > 0) {
-        await deleteTodos(deletedTodos);
-      }
-
-      // Update the initialTodos state to match the saved localTodos
-      setInitialTodos(localTodos);
-    } catch (error) {
-      console.error('Error saving todos:', error);
+    if (newTodos.length > 0) {
+      await postTodos(newTodos);
     }
+    if (modifiedTodos.length > 0) {
+      await patchTodos(modifiedTodos);
+    }
+    if (deletedTodos.length > 0) {
+      await deleteTodos(deletedTodos);
+    }
+
+    setInitialTodos(localTodos);
   };
 
   const postTodos = async (todos) => {
-    const response = await fetch('http://localhost:8000/api/todo_items/', {
+    await fetch('http://localhost:8000/api/todo_items/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -74,14 +71,10 @@ const TodoList = () => {
       },
       body: JSON.stringify(todos)
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to create new todos');
-    }
   };
 
   const patchTodos = async (todos) => {
-    const response = await fetch('http://localhost:8000/api/todo_items/', {
+    await fetch('http://localhost:8000/api/todo_items/', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -89,14 +82,10 @@ const TodoList = () => {
       },
       body: JSON.stringify(todos)
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to create new todos');
-    }
   };
 
   const deleteTodos = async (todos) => {
-    const response = await fetch('http://localhost:8000/api/todo_items/', {
+    await fetch('http://localhost:8000/api/todo_items/', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -104,10 +93,6 @@ const TodoList = () => {
       },
       body: JSON.stringify(todos)
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to create new todos');
-    }
   };
 
   const onDelete = (index) => {
@@ -116,8 +101,8 @@ const TodoList = () => {
     setLocalTodos(updatedTodos);
   };
 
-  const onComplete = (index) => {
-    const updatedTodos = [...localTodos];
+  const toggleComplete = (index) => {
+    const updatedTodos = cloneDeep(localTodos);
     updatedTodos[index].completed = !updatedTodos[index].completed;
     setLocalTodos(updatedTodos);
   };
@@ -158,7 +143,8 @@ const TodoList = () => {
                       dragHandleProps={provided.dragHandleProps}
                       title={todoItemData.title}
                       onDelete={() => onDelete(index)}
-                      onComplete={() => onComplete(index)}
+                      onComplete={() => toggleComplete(index)}
+                      isCompleted={todoItemData.completed}
                     />
                   )}
                 </Draggable>
