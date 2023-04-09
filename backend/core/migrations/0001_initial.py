@@ -42,10 +42,4 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
-        # since django orm constraints doesn't work on database level, and ruins the usage of bulk views
-        # I decided to use raw sql to create a unique constraint on the user_id and order_id
-        # https://github.com/miki725/django-rest-framework-bulk/issues/57
-        migrations.RunSQL(
-            "CREATE UNIQUE INDEX unique_order ON core_todoitem(user_id, order_id);",
-        ),
     ]
