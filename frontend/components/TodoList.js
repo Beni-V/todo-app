@@ -117,6 +117,17 @@ const TodoList = () => {
     setLocalTodos([...localTodos, newTodo]);
   };
 
+  const onTitleUpdate = (index, newTitle) => {
+    const updatedTodos = cloneDeep(localTodos);
+    updatedTodos[index].title = newTitle;
+    setLocalTodos(updatedTodos);
+  };
+
+  function logOut() {
+    localStorage.clear();
+    window.location.reload();
+  }
+
   return (
     <Box
       className="flex flex-col bg-white w-1/2 h-full rounded-lg justify-center p-5"
@@ -145,6 +156,7 @@ const TodoList = () => {
                       onDelete={() => onDelete(index)}
                       onComplete={() => toggleComplete(index)}
                       isCompleted={todoItemData.completed}
+                      onTitleUpdate={(newTitle) => onTitleUpdate(index, newTitle)}
                     />
                   )}
                 </Draggable>
@@ -165,6 +177,9 @@ const TodoList = () => {
           Save
         </Button>
       </Box>
+      <Button variant="outline" colorScheme="blue" className="p-3" onClick={logOut}>
+        Log Out
+      </Button>
     </Box>
   );
 };
