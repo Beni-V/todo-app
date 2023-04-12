@@ -7,7 +7,7 @@ for installation:
     * `cd backend`
     * `pip install -r requirements.txt`
 
-* Run backend migrations
+* Run backend migrations (use any env you want on python 3.11)
     * `cd backend`
     * `python manage.py migrate`
 
