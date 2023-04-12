@@ -16,7 +16,7 @@ function AuthenticationInputGroup({
         {...register(registerName)}
         {...props}
       />
-      <InputRightElement className={inputRightElementClassName}>
+      <InputRightElement width="4em" className={inputRightElementClassName}>
         {inputRightElementChild}
       </InputRightElement>
     </InputGroup>

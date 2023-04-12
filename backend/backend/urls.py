@@ -17,13 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.routers import DefaultRouter
+from rest_framework_bulk.routes import BulkRouter
 
 from core.views import TodoItemViewSet
 from users.views import UserRegistrationView
 
-router = DefaultRouter()
-router.register("todo_items", TodoItemViewSet, basename='todo_items')
+router = BulkRouter()
+router.register("todo_items", TodoItemViewSet, basename="todo_items")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

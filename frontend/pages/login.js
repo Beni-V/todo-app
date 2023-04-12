@@ -37,7 +37,7 @@ const LoginPage = () => {
           registerName={'username'}
           placeholder={'Enter Username'}
           inputRightElementChild={<FaUser />}
-          inputRightElementClassName={'flex justify-center pt-4 pr-4'}
+          inputRightElementClassName={'flex justify-center pt-4 pb-4'}
         />
         <AuthenticationInputGroup
           register={register}
@@ -53,7 +53,7 @@ const LoginPage = () => {
               {showPassword ? 'Hide' : 'Show'}
             </Button>
           }
-          inputRightElementClassName={'pt-2 pr-2'}
+          inputRightElementClassName={'pt-2 pb-2 pr-2'}
         />
         <form onSubmit={handleSubmit(onSubmit)} className="flex justify-center w-[75.5%]">
           <Button colorScheme="blue" rounded="lg" className="p-3 w-full" type={'submit'}>

@@ -1,8 +1,12 @@
+from rest_framework_bulk import BulkSerializerMixin, BulkListSerializer
+
 from core.models import TodoItem
-from users import serializers
+from rest_framework import serializers
 
 
-class TodoItemSerializer(serializers.ModelSerializer):
-    class Meta:
+class TodoItemSerializer(BulkSerializerMixin, serializers.ModelSerializer):
+    class Meta(object):
         model = TodoItem
-        fields = "title, description, completed"
+        list_serializer_class = BulkListSerializer
+        fields = ["title", "description", "completed", "user", "order_id", "id"]
+        update_lookup_field = "id"
